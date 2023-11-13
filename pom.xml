@@ -39,10 +39,6 @@
 
     <inceptionYear>2023</inceptionYear>
 
-    <prerequisites>
-        <maven>3.6.0</maven>
-    </prerequisites>
-
     <!-- TODO: Update issue management -->
     <issueManagement>
         <url>https://github.com/toolisticon/FluApiGen_EmailDemo/issues</url>
@@ -71,7 +67,7 @@
 
 
         <!-- project dependency versions -->
-        <fluapigen.version>0.8.0</fluapigen.version>
+        <fluapigen.version>0.8.1</fluapigen.version>
 
         <!-- versions of test dependencies -->
         <junit.version>4.13.2</junit.version>
@@ -128,19 +124,6 @@
         // -->
         <pluginManagement>
             <plugins>
-
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>${maven-build-helper-plugin.version}</version>
-                </plugin>
-
-                <!-- sources -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven-source-plugin.version}</version>
-                </plugin>
 
                 <!-- gitflow plugin -->
                 <plugin>
@@ -352,6 +335,7 @@
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
 
                 <configuration>
                     <verbose>true</verbose>
@@ -375,16 +359,19 @@
 
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin.version}</version>
             </plugin>
 
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven-deploy-plugin.version}</version>
             </plugin>
 
 
 
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -397,6 +384,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${maven-jacoco-plugin.version}</version>
             </plugin>
 
         </plugins>
