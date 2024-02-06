@@ -67,7 +67,7 @@
 
 
         <!-- project dependency versions -->
-        <fluapigen.version>0.8.1</fluapigen.version>
+        <fluapigen.version>0.9.1</fluapigen.version>
 
         <!-- versions of test dependencies -->
         <junit.version>4.13.2</junit.version>

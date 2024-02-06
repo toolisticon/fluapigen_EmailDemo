@@ -24,6 +24,9 @@ import java.util.stream.Collectors;
 @NotNull
 public class EmailFluentApi {
 
+    // Don't blame me : it's by far not a correct matcher for email addresses ;)
+    final static String EMAIL_PATTERN = ".+[@].+";
+
     // ---------------------------------------------------
     // -- Backing Beans
     // ---------------------------------------------------
@@ -100,7 +103,10 @@ public class EmailFluentApi {
     @FluentApiInterface(EmailBB.class)
     public interface EmailStartInterface {
 
-        AddRecipientTraverse withSender(@FluentApiBackingBeanMapping(value = "subject") String sender);
+        AddRecipientTraverse withSender(
+                @FluentApiBackingBeanMapping(value = "sender")
+                @Matches(EMAIL_PATTERN)
+                String sender);
 
     }
 
@@ -117,31 +123,45 @@ public class EmailFluentApi {
         @FluentApiImplicitValue(value = "TO", id = "recipientKind", target = TargetBackingBean.INLINE)
         AddRecipientsOrSetSubject to(
                 @FluentApiBackingBeanMapping(value = "emailAddress", target = TargetBackingBean.INLINE)
-                @Matches(".*[@].*") String emailAddress);
+                @Matches(EMAIL_PATTERN)
+                String emailAddress
+        );
 
         @FluentApiInlineBackingBeanMapping("recipients")
         @FluentApiImplicitValue(value = "CC", id = "recipientKind", target = TargetBackingBean.INLINE)
-        AddRecipientsOrSetSubject cc(@FluentApiBackingBeanMapping(value = "emailAddress", target = TargetBackingBean.INLINE)
-                                     @Matches(".*[@].*") String emailAddress);
+        AddRecipientsOrSetSubject cc(
+                @FluentApiBackingBeanMapping(value = "emailAddress", target = TargetBackingBean.INLINE)
+                @Matches(EMAIL_PATTERN)
+                String emailAddress
+        );
 
         @FluentApiInlineBackingBeanMapping("recipients")
         @FluentApiImplicitValue(value = "BCC", id = "recipientKind", target = TargetBackingBean.INLINE)
-        AddRecipientsOrSetSubject bcc(@FluentApiBackingBeanMapping(value = "emailAddress", target = TargetBackingBean.INLINE)
-                                      @Matches(".*[@].*") String emailAddress);
+        AddRecipientsOrSetSubject bcc(
+                @FluentApiBackingBeanMapping(value = "emailAddress", target = TargetBackingBean.INLINE)
+                @Matches(EMAIL_PATTERN)
+                String emailAddress
+        );
     }
 
     @FluentApiInterface(EmailBB.class)
     public interface AddRecipientsOrSetSubject {
         AddRecipient and();
 
-        AddBodyInterface withSubject(@FluentApiBackingBeanMapping(value = "subject") String subject);
+        AddBodyInterface withSubject(
+                @FluentApiBackingBeanMapping(value = "subject")
+                String subject
+        );
 
     }
 
     @FluentApiInterface(EmailBB.class)
     public interface AddBodyInterface {
 
-        AddAttachmentOrCloseCommandInterface withBody(@FluentApiBackingBeanMapping(value = "subject") String body);
+        AddAttachmentOrCloseCommandInterface withBody(
+                @FluentApiBackingBeanMapping(value = "body")
+                String body
+        );
 
     }
 
@@ -160,13 +180,19 @@ public class EmailFluentApi {
     public interface AddAttachmentFileInterface {
 
         @FluentApiParentBackingBeanMapping(value = "attachments", action = MappingAction.ADD)
-        AddAttachmentOrCloseCommandInterface fromFile(@FluentApiBackingBeanMapping(value = "attachment") File file);
+        AddAttachmentOrCloseCommandInterface fromFile(
+                @FluentApiBackingBeanMapping(value = "attachment")
+                File file
+        );
     }
 
     @FluentApiInterface(AttachmentBB.class)
     public interface AddAttachmentInterface extends AddAttachmentFileInterface {
 
-        AddAttachmentFileInterface withCustomName(@FluentApiBackingBeanMapping(value = "attachmentName")@NotEmpty String attachmentName);
+        AddAttachmentFileInterface withCustomName(
+                @FluentApiBackingBeanMapping(value = "attachmentName")
+                @NotEmpty String attachmentName
+        );
 
     }
 
