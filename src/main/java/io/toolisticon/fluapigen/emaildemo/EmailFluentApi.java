@@ -13,13 +13,15 @@ import io.toolisticon.fluapigen.api.FluentApiRoot;
 import io.toolisticon.fluapigen.api.MappingAction;
 import io.toolisticon.fluapigen.api.TargetBackingBean;
 import io.toolisticon.fluapigen.validation.api.Matches;
+import io.toolisticon.fluapigen.validation.api.NotEmpty;
 import io.toolisticon.fluapigen.validation.api.NotNull;
 
 import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@FluentApi("EmailFluentApiStarter")
+@FluentApi("EmailDataBuilder")
+@NotNull
 public class EmailFluentApi {
 
     // ---------------------------------------------------
@@ -31,6 +33,8 @@ public class EmailFluentApi {
      */
     @FluentApiBackingBean
     public interface EmailBB {
+
+        String sender();
 
         List<RecipientBB> recipients();
 
@@ -96,35 +100,48 @@ public class EmailFluentApi {
     @FluentApiInterface(EmailBB.class)
     public interface EmailStartInterface {
 
+        AddRecipientTraverse withSender(@FluentApiBackingBeanMapping(value = "subject") String sender);
+
+    }
+
+    @FluentApiInterface(EmailBB.class)
+    public interface AddRecipientTraverse{
+        AddRecipient withRecipients();
+    }
+
+
+    @FluentApiInterface(EmailBB.class)
+    public interface AddRecipient{
+
         @FluentApiInlineBackingBeanMapping("recipients")
         @FluentApiImplicitValue(value = "TO", id = "recipientKind", target = TargetBackingBean.INLINE)
         AddRecipientsOrSetSubject to(
                 @FluentApiBackingBeanMapping(value = "emailAddress", target = TargetBackingBean.INLINE)
-                @NotNull @Matches(".*[@].*") String emailAddress);
+                @Matches(".*[@].*") String emailAddress);
 
         @FluentApiInlineBackingBeanMapping("recipients")
         @FluentApiImplicitValue(value = "CC", id = "recipientKind", target = TargetBackingBean.INLINE)
         AddRecipientsOrSetSubject cc(@FluentApiBackingBeanMapping(value = "emailAddress", target = TargetBackingBean.INLINE)
-                                     @NotNull @Matches(".*[@].*") String emailAddress);
+                                     @Matches(".*[@].*") String emailAddress);
 
         @FluentApiInlineBackingBeanMapping("recipients")
         @FluentApiImplicitValue(value = "BCC", id = "recipientKind", target = TargetBackingBean.INLINE)
         AddRecipientsOrSetSubject bcc(@FluentApiBackingBeanMapping(value = "emailAddress", target = TargetBackingBean.INLINE)
-                                      @NotNull @Matches(".*[@].*") String emailAddress);
+                                      @Matches(".*[@].*") String emailAddress);
     }
 
     @FluentApiInterface(EmailBB.class)
     public interface AddRecipientsOrSetSubject {
-        EmailStartInterface and();
+        AddRecipient and();
 
-        AddBodyInterface withSubject(@FluentApiBackingBeanMapping(value = "subject") @NotNull String subject);
+        AddBodyInterface withSubject(@FluentApiBackingBeanMapping(value = "subject") String subject);
 
     }
 
     @FluentApiInterface(EmailBB.class)
     public interface AddBodyInterface {
 
-        AddAttachmentOrCloseCommandInterface withBody(@FluentApiBackingBeanMapping(value = "subject") @NotNull String body);
+        AddAttachmentOrCloseCommandInterface withBody(@FluentApiBackingBeanMapping(value = "subject") String body);
 
     }
 
@@ -135,7 +152,7 @@ public class EmailFluentApi {
 
 
         @FluentApiCommand(SendEmailCommand.class)
-        EmailBB sendEmail();
+        EmailBB build();
 
     }
 
@@ -149,7 +166,7 @@ public class EmailFluentApi {
     @FluentApiInterface(AttachmentBB.class)
     public interface AddAttachmentInterface extends AddAttachmentFileInterface {
 
-        AddAttachmentFileInterface withCustomName(@FluentApiBackingBeanMapping(value = "attachmentName") String attachmentName);
+        AddAttachmentFileInterface withCustomName(@FluentApiBackingBeanMapping(value = "attachmentName")@NotEmpty String attachmentName);
 
     }
 
