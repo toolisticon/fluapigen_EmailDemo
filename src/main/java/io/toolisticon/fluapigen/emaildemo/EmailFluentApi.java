@@ -88,7 +88,7 @@ public class EmailFluentApi {
 
     @FluentApiCommand
     public static class SendEmailCommand {
-        public static EmailBB sendEmail(EmailBB emailBB) {
+        public static EmailBB build(EmailBB emailBB) {
             // Implementation for sending the email
             return emailBB;
         }
