@@ -1,3 +1,5 @@
+![Build Status](https://github.com/toolisticon/fluapigen_EmailDemo/workflows/default/badge.svg)
+
 # FluApiGen - Email Demo
 
 Demo project about building a immutable fluent api with [FluApiGen](https://github.com/toolisticon/FluApiGen).
