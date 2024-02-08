@@ -89,7 +89,7 @@ public class EmailFluentApi {
     @FluentApiCommand
     public static class SendEmailCommand {
         public static EmailBB build(EmailBB emailBB) {
-            // Implementation for sending the email
+            // just return the data object
             return emailBB;
         }
     }
@@ -97,7 +97,6 @@ public class EmailFluentApi {
     // ---------------------------------------------------
     // -- Fluent Api
     // ---------------------------------------------------
-
 
     @FluentApiRoot
     @FluentApiInterface(EmailBB.class)
